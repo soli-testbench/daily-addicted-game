@@ -25,6 +25,14 @@
         <div id="mode-select">
             <div class="mode-select-title">Daily Addicted</div>
             <div class="mode-select-subtitle">Choose your mode</div>
+            <div class="difficulty-selector">
+                <div class="difficulty-label">Difficulty</div>
+                <div class="difficulty-buttons">
+                    <button class="difficulty-btn" data-difficulty="easy">Easy</button>
+                    <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+                    <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+                </div>
+            </div>
             <div class="mode-buttons">
                 <button id="mode-daily-btn" class="mode-btn mode-btn-daily">
                     <span class="mode-btn-icon">📅</span>
@@ -93,7 +101,7 @@
                 <div class="help-rules">
                     <div class="help-rule">
                         <span class="help-icon">📝</span>
-                        <span>Each <strong>row</strong> contains a scrambled 5-letter word</span>
+                        <span id="help-rule-wordlen">Each <strong>row</strong> contains a scrambled 5-letter word</span>
                     </div>
                     <div class="help-rule">
                         <span class="help-icon">↕️</span>
@@ -109,7 +117,7 @@
                     </div>
                     <div class="help-rule">
                         <span class="help-icon">🏆</span>
-                        <span>Complete all 4 words in as <strong>few swaps</strong> as possible!</span>
+                        <span id="help-rule-goal">Complete all 4 words in as <strong>few swaps</strong> as possible!</span>
                     </div>
                 </div>
                 <div class="help-example">
