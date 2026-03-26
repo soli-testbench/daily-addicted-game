@@ -143,7 +143,56 @@ body {
 .mode-select-subtitle {
     font-size: 1rem;
     color: var(--text-secondary);
-    margin-bottom: 40px;
+    margin-bottom: 24px;
+}
+
+/* ========== Difficulty Selector ========== */
+.difficulty-selector {
+    text-align: center;
+    margin-bottom: 32px;
+    width: 100%;
+    max-width: 320px;
+}
+
+.difficulty-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.difficulty-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.difficulty-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: 2px solid var(--border-light);
+    border-radius: 10px;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-family: var(--font-main);
+}
+
+.difficulty-btn:hover {
+    border-color: var(--border-medium);
+    color: var(--text-primary);
+    background: var(--hover-overlay);
+}
+
+.difficulty-btn.active {
+    border-color: var(--color-btn-primary);
+    background: rgba(67, 97, 238, 0.15);
+    color: var(--color-btn-primary);
 }
 
 .mode-buttons {
@@ -464,6 +513,7 @@ main {
 .grid-row.row-complete .grid-cell:nth-child(3) { animation-delay: 120ms; }
 .grid-row.row-complete .grid-cell:nth-child(4) { animation-delay: 180ms; }
 .grid-row.row-complete .grid-cell:nth-child(5) { animation-delay: 240ms; }
+.grid-row.row-complete .grid-cell:nth-child(6) { animation-delay: 300ms; }
 
 @keyframes rowComplete {
     0% { transform: scale(1); }
@@ -759,6 +809,19 @@ footer p {
     font-variant-numeric: tabular-nums;
 }
 
+/* ========== Grid Size Classes ========== */
+.grid-easy #grid-container {
+    --cell-size: 72px;
+}
+
+.grid-hard #grid-container {
+    --cell-size: 54px;
+}
+
+.grid-hard .grid-cell {
+    font-size: 1.3rem;
+}
+
 /* ========== Responsive ========== */
 @media (max-width: 380px) {
     :root {
@@ -768,6 +831,18 @@ footer p {
 
     .grid-cell {
         font-size: 1.3rem;
+    }
+
+    .grid-easy #grid-container {
+        --cell-size: 62px;
+    }
+
+    .grid-hard #grid-container {
+        --cell-size: 46px;
+    }
+
+    .grid-hard .grid-cell {
+        font-size: 1.1rem;
     }
 
     .title-area h1 {
@@ -784,6 +859,18 @@ footer p {
     .grid-cell {
         font-size: 1.1rem;
     }
+
+    .grid-easy #grid-container {
+        --cell-size: 56px;
+    }
+
+    .grid-hard #grid-container {
+        --cell-size: 40px;
+    }
+
+    .grid-hard .grid-cell {
+        font-size: 1rem;
+    }
 }
 
 @media (min-width: 481px) {
@@ -793,5 +880,17 @@ footer p {
 
     .grid-cell {
         font-size: 1.7rem;
+    }
+
+    .grid-easy #grid-container {
+        --cell-size: 80px;
+    }
+
+    .grid-hard #grid-container {
+        --cell-size: 60px;
+    }
+
+    .grid-hard .grid-cell {
+        font-size: 1.4rem;
     }
 }
