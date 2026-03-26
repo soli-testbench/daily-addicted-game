@@ -37,6 +37,8 @@
     --bg-inset: rgba(0, 0, 0, 0.2);
     --color-success: #52b788;
     --color-success-bg: rgba(64, 145, 108, 0.15);
+    --color-selected-glow: rgba(201, 162, 39, 0.3);
+    --color-swap-target-border: rgba(201, 162, 39, 0.4);
     --cell-size: 64px;
     --cell-gap: 6px;
     --cell-radius: 10px;
@@ -77,6 +79,8 @@
     --bg-inset: rgba(0, 0, 0, 0.06);
     --color-success: #2d8a4e;
     --color-success-bg: rgba(45, 138, 78, 0.12);
+    --color-selected-glow: rgba(184, 148, 30, 0.25);
+    --color-swap-target-border: rgba(184, 148, 30, 0.3);
 }
 
 html, body {
@@ -170,7 +174,7 @@ main {
     font-size: 0.85rem;
     margin-bottom: 16px;
     text-align: center;
-    background: rgba(201, 162, 39, 0.15);
+    background: var(--color-selected-bg);
     color: var(--color-selected);
     transition: opacity var(--transition-medium);
 }
@@ -230,11 +234,11 @@ main {
     border-color: var(--color-selected);
     color: var(--color-selected);
     transform: scale(1.05);
-    box-shadow: 0 0 16px rgba(201, 162, 39, 0.3);
+    box-shadow: 0 0 16px var(--color-selected-glow);
 }
 
 .grid-cell.swap-target {
-    border-color: rgba(201, 162, 39, 0.4);
+    border-color: var(--color-swap-target-border);
     background: var(--color-swap-target);
 }
 

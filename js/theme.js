@@ -2,15 +2,24 @@
   'use strict';
 
   var THEME_KEY = 'theme';
+  var VALID_THEMES = ['dark', 'light'];
 
   function getTheme() {
     return document.documentElement.getAttribute('data-theme') || 'dark';
   }
 
-  function setTheme(theme) {
+  function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem(THEME_KEY, theme);
     updateToggleButton(theme);
+  }
+
+  function setTheme(theme) {
+    applyTheme(theme);
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch (e) {
+      // localStorage may be unavailable in private browsing
+    }
   }
 
   function updateToggleButton(theme) {
@@ -44,8 +53,12 @@
 
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        if (!localStorage.getItem(THEME_KEY)) {
-          setTheme(e.matches ? 'dark' : 'light');
+        try {
+          if (!localStorage.getItem(THEME_KEY)) {
+            applyTheme(e.matches ? 'dark' : 'light');
+          }
+        } catch (err) {
+          applyTheme(e.matches ? 'dark' : 'light');
         }
       });
     }
