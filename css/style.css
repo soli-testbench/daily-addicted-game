@@ -48,12 +48,12 @@
 }
 
 [data-theme='light'] {
-    --bg-primary: #f5f0e8;
-    --bg-secondary: #ede8df;
-    --bg-surface: #e2ddd4;
-    --text-primary: #2c2c34;
-    --text-secondary: #6b6b78;
-    --text-muted: #9b9ba8;
+    --bg-primary: #fafafa;
+    --bg-secondary: #f3f3f5;
+    --bg-surface: #e8e8ec;
+    --text-primary: #3a3a44;
+    --text-secondary: #8a8a98;
+    --text-muted: #b0b0bc;
     --color-fixed: #3a8f5c;
     --color-fixed-text: #1a5c35;
     --color-complete: #4caf6e;
@@ -68,10 +68,10 @@
     --border-light: rgba(0, 0, 0, 0.12);
     --border-medium: rgba(0, 0, 0, 0.2);
     --hover-overlay: rgba(0, 0, 0, 0.04);
-    --title-gradient-start: #2c2c34;
-    --title-gradient-end: #5a5a68;
-    --cell-hover-bg: #d8d3ca;
-    --cell-hover-border: rgba(0, 0, 0, 0.08);
+    --title-gradient-start: #3a3a44;
+    --title-gradient-end: #8a8a98;
+    --cell-hover-bg: #dddde2;
+    --cell-hover-border: rgba(0, 0, 0, 0.06);
     --color-fixed-border: rgba(58, 143, 92, 0.4);
     --color-complete-border: rgba(76, 175, 110, 0.5);
     --backdrop-bg: rgba(0, 0, 0, 0.35);
@@ -133,7 +133,7 @@ body {
     font-size: 2.2rem;
     font-weight: 700;
     letter-spacing: 0.02em;
-    background: linear-gradient(135deg, #e8e8f0, #a8a8c0);
+    background: linear-gradient(135deg, var(--title-gradient-start), var(--title-gradient-end));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -339,11 +339,11 @@ body {
 .btn-secondary {
     background: transparent;
     color: var(--text-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid var(--border-light);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--hover-overlay);
     color: var(--text-primary);
 }
 

@@ -17,7 +17,7 @@
             "Change --text-primary to #3a3a44, --text-secondary to #8a8a98, --text-muted to #b0b0bc",
             "Update --cell-hover-bg to #dddde2, --title-gradient-start/end to match new text colors"
           ],
-          "passes": false
+          "passes": true
         },
         {
           "id": "t2",
@@ -27,14 +27,17 @@
             "Change .btn-secondary border to use var(--border-light)",
             "Change .btn-secondary:hover background to use var(--hover-overlay)"
           ],
-          "passes": false
+          "passes": true
         }
       ],
       "quality_checklist": [
         {
           "id": "q1",
           "description": "No remaining hardcoded color values that should be CSS variables in theme-sensitive contexts",
-          "steps": ["Grep for hardcoded hex colors and rgba values outside of :root and [data-theme] blocks", "Verify any found are intentional (e.g. specific hover states for mode buttons)"],
+          "steps": [
+            "Grep for hardcoded hex colors and rgba values outside of :root and [data-theme] blocks",
+            "Verify any found are intentional (e.g. specific hover states for mode buttons)"
+          ],
           "passes": false
         }
       ]
@@ -51,13 +54,21 @@
       {
         "id": "v1",
         "description": "Light mode backgrounds are visibly lighter/whiter than before",
-        "steps": ["Open the app in browser", "Toggle to light mode", "Verify the page background is near-white (#fafafa), not beige", "Verify grid cells have a light gray background, not warm beige"],
+        "steps": [
+          "Open the app in browser",
+          "Toggle to light mode",
+          "Verify the page background is near-white (#fafafa), not beige",
+          "Verify grid cells have a light gray background, not warm beige"
+        ],
         "passes": false
       },
       {
         "id": "v2",
         "description": "Mode select title displays correctly in light mode",
-        "steps": ["Load the app in light mode", "Check the 'Daily Addicted' title on the mode select screen uses dark text gradient, not the dark-theme light gradient"],
+        "steps": [
+          "Load the app in light mode",
+          "Check the 'Daily Addicted' title on the mode select screen uses dark text gradient, not the dark-theme light gradient"
+        ],
         "passes": false
       }
     ]
