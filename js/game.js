@@ -599,6 +599,34 @@
         }, 2500);
     }
 
+    // ========== THEME TOGGLE ==========
+    var THEME_KEY = 'daily-addicted-theme';
+
+    function getCurrentTheme() {
+        return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    }
+
+    function setTheme(theme) {
+        document.documentElement.classList.add('theme-transition');
+        if (theme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+        try {
+            localStorage.setItem(THEME_KEY, theme);
+        } catch (e) {}
+        // Remove transition class after animation completes
+        setTimeout(function() {
+            document.documentElement.classList.remove('theme-transition');
+        }, 350);
+    }
+
+    function toggleTheme() {
+        var current = getCurrentTheme();
+        setTheme(current === 'dark' ? 'light' : 'dark');
+    }
+
     // ========== INITIALIZATION ==========
     function init() {
         var dateStr = getDateString();
@@ -645,6 +673,7 @@
         state.selected = null;
 
         // Set up event listeners
+        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
         document.getElementById('help-btn').addEventListener('click', showHelpModal);
         document.getElementById('help-close-btn').addEventListener('click', hideHelpModal);
 
