@@ -370,6 +370,10 @@ header {
     margin-bottom: 24px;
 }
 
+header > #help-btn {
+    flex: 1;
+}
+
 .header-btn {
     width: 40px;
     height: 40px;
@@ -391,8 +395,10 @@ header {
 }
 
 .header-right {
+    flex: 1;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 8px;
 }
 
