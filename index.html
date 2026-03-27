@@ -59,6 +59,15 @@
                 <h1>Daily Addicted</h1>
                 <div id="puzzle-number">#1</div>
             </div>
+            <div class="header-right">
+            <button id="hint-btn" class="header-btn hint-btn" aria-label="Use a hint" title="Use a hint">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18h6"/>
+                    <path d="M10 22h4"/>
+                    <path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>
+                </svg>
+                <span id="hint-count" class="hint-count">3</span>
+            </button>
             <button id="theme-toggle" class="header-btn" aria-label="Switch to light mode" title="Switch theme">
                 <svg id="theme-icon-dark" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
                     <circle cx="12" cy="12" r="5"/>
@@ -75,6 +84,7 @@
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                 </svg>
             </button>
+            </div>
         </header>
 
         <main>
@@ -85,6 +95,9 @@
             <div id="message-bar" class="hidden"></div>
             <div id="grid-container"></div>
             <div id="swap-counter">Swaps: 0 | Par: 0</div>
+            <div id="hint-bar" class="hidden">
+                <span id="hint-penalty-note"></span>
+            </div>
         </main>
 
         <footer>

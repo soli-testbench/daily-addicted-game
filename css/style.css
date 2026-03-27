@@ -39,6 +39,12 @@
     --color-success-bg: rgba(64, 145, 108, 0.15);
     --color-selected-glow: rgba(201, 162, 39, 0.3);
     --color-swap-target-border: rgba(201, 162, 39, 0.4);
+    --color-hint: #e0a020;
+    --color-hint-text: #fff8e1;
+    --color-hint-border: rgba(224, 160, 32, 0.6);
+    --color-hint-glow: rgba(224, 160, 32, 0.35);
+    --color-hint-btn: #e0a020;
+    --color-hint-btn-hover: #c88e1a;
     --cell-size: 64px;
     --cell-gap: 6px;
     --cell-radius: 10px;
@@ -81,6 +87,12 @@
     --color-success-bg: rgba(45, 138, 78, 0.12);
     --color-selected-glow: rgba(184, 148, 30, 0.25);
     --color-swap-target-border: rgba(184, 148, 30, 0.3);
+    --color-hint: #b8860b;
+    --color-hint-text: #5c3d00;
+    --color-hint-border: rgba(184, 134, 11, 0.5);
+    --color-hint-glow: rgba(184, 134, 11, 0.25);
+    --color-hint-btn: #b8860b;
+    --color-hint-btn-hover: #9a7209;
 }
 
 html, body {
@@ -378,6 +390,12 @@ header {
     border-color: var(--border-medium);
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .title-area {
     text-align: center;
 }
@@ -487,6 +505,20 @@ main {
     background: var(--color-selected-bg);
 }
 
+.grid-cell.hinted {
+    background: var(--color-hint);
+    color: var(--color-hint-text);
+    border-color: var(--color-hint-border);
+    box-shadow: 0 0 10px var(--color-hint-glow);
+}
+
+.grid-cell.hinted.complete {
+    background: var(--color-complete);
+    color: var(--color-complete-text);
+    border-color: var(--color-complete-border);
+    box-shadow: none;
+}
+
 .grid-cell.complete {
     background: var(--color-complete);
     color: var(--color-complete-text);
@@ -530,6 +562,54 @@ main {
     background: var(--bg-secondary);
     border-radius: 20px;
     border: 1px solid var(--border-subtle);
+}
+
+/* ========== Hint Button ========== */
+.hint-btn {
+    position: relative;
+}
+
+.hint-btn svg {
+    stroke: var(--color-hint-btn);
+}
+
+.hint-btn:hover svg {
+    stroke: var(--color-hint-btn-hover);
+}
+
+.hint-btn.disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.hint-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--color-hint-btn);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+/* ========== Hint Bar ========== */
+#hint-bar {
+    font-size: 0.8rem;
+    color: var(--color-hint-btn);
+    margin-top: 8px;
+    text-align: center;
+}
+
+#hint-bar.hidden {
+    display: none;
 }
 
 /* ========== Footer ========== */

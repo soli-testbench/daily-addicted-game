@@ -425,6 +425,9 @@
         solved: 0
     };
 
+    var MAX_HINTS = 3;
+    var HINT_PENALTY = 2;
+
     var state = {
         date: null,
         difficulty: null,
@@ -437,7 +440,9 @@
         selected: null,
         completed: false,
         rowsComplete: null,
-        initialGrid: null
+        initialGrid: null,
+        hintsUsed: 0,
+        hintedCells: []
     };
 
     function makeRowsComplete(numRows) {
@@ -462,7 +467,9 @@
                 swaps: state.swaps,
                 completed: state.completed,
                 rowsComplete: state.rowsComplete,
-                initialGrid: state.initialGrid
+                initialGrid: state.initialGrid,
+                hintsUsed: state.hintsUsed,
+                hintedCells: state.hintedCells
             };
             localStorage.setItem(getStorageKeyForDifficulty(), JSON.stringify(toSave));
         } catch (e) {}
@@ -485,6 +492,7 @@
         renderGrid();
         renderSwapCounter();
         renderPuzzleNumber();
+        renderHintButton();
     }
 
     function renderGrid() {
@@ -511,6 +519,9 @@
 
                 if (state.fixed[row][col]) {
                     cell.classList.add('fixed');
+                }
+                if (isCellHinted(row, col)) {
+                    cell.classList.add('hinted');
                 }
                 if (state.rowsComplete[row]) {
                     cell.classList.add('complete');
@@ -546,6 +557,105 @@
     function renderSwapCounter() {
         document.getElementById('swap-counter').textContent =
             'Swaps: ' + state.swaps + ' | Par: ' + state.par;
+        var hintBar = document.getElementById('hint-bar');
+        var hintNote = document.getElementById('hint-penalty-note');
+        if (hintBar && hintNote) {
+            if (state.hintsUsed > 0) {
+                hintBar.classList.remove('hidden');
+                hintNote.textContent = 'Hints used: ' + state.hintsUsed + ' (+' + (state.hintsUsed * HINT_PENALTY) + ' swap penalty)';
+            } else {
+                hintBar.classList.add('hidden');
+            }
+        }
+    }
+
+    function isCellHinted(row, col) {
+        for (var i = 0; i < state.hintedCells.length; i++) {
+            if (state.hintedCells[i].row === row && state.hintedCells[i].col === col) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function renderHintButton() {
+        var btn = document.getElementById('hint-btn');
+        var countEl = document.getElementById('hint-count');
+        if (!btn || !countEl) return;
+        var remaining = MAX_HINTS - state.hintsUsed;
+        countEl.textContent = remaining;
+        if (remaining <= 0 || state.completed) {
+            btn.disabled = true;
+            btn.classList.add('disabled');
+        } else {
+            btn.disabled = false;
+            btn.classList.remove('disabled');
+        }
+    }
+
+    function useHint() {
+        if (state.completed) return;
+        if (state.hintsUsed >= MAX_HINTS) {
+            showMessage('No hints remaining!');
+            return;
+        }
+
+        var config = getDifficultyConfig();
+        var candidates = [];
+
+        for (var row = 0; row < config.rows; row++) {
+            if (state.rowsComplete[row]) continue;
+            for (var col = 0; col < config.cols; col++) {
+                if (state.fixed[row][col]) continue;
+                if (isCellHinted(row, col)) continue;
+                if (state.grid[row][col] !== state.solution[row][col]) {
+                    candidates.push({ row: row, col: col });
+                }
+            }
+        }
+
+        if (candidates.length === 0) {
+            showMessage('No more cells to hint!');
+            return;
+        }
+
+        var pick = candidates[Math.floor(Math.random() * candidates.length)];
+        state.grid[pick.row][pick.col] = state.solution[pick.row][pick.col];
+        state.hintedCells.push({ row: pick.row, col: pick.col });
+        state.hintsUsed++;
+        state.swaps += HINT_PENALTY;
+        state.selected = null;
+
+        checkRows();
+        render();
+
+        var config2 = getDifficultyConfig();
+        var allComplete = true;
+        for (var i = 0; i < config2.rows; i++) {
+            if (!state.rowsComplete[i]) {
+                allComplete = false;
+                break;
+            }
+        }
+
+        if (allComplete) {
+            if (gameMode === 'speedrun') {
+                speedrunState.solved++;
+                updateSpeedrunSolvedDisplay();
+                loadNewSpeedRunPuzzle();
+            } else {
+                state.completed = true;
+                saveState();
+                setTimeout(function() {
+                    if (typeof window.launchConfetti === 'function') {
+                        window.launchConfetti();
+                    }
+                    showCompletionModal();
+                }, 600);
+            }
+        } else {
+            saveState();
+        }
     }
 
     function renderPuzzleNumber() {
@@ -741,6 +851,14 @@
         wordsEl.innerHTML = wordsHTML;
 
         var statsEl = document.getElementById('result-stats');
+        var hintsHTML = '';
+        if (state.hintsUsed > 0) {
+            hintsHTML =
+                '<div class="stat">' +
+                    '<span class="stat-value">' + state.hintsUsed + '</span>' +
+                    '<span class="stat-label">Hints</span>' +
+                '</div>';
+        }
         statsEl.innerHTML =
             '<div class="stat">' +
                 '<span class="stat-value">' + state.swaps + '</span>' +
@@ -750,6 +868,7 @@
                 '<span class="stat-value">' + state.par + '</span>' +
                 '<span class="stat-label">Par</span>' +
             '</div>' +
+            hintsHTML +
             '<div class="stat">' +
                 '<span class="stat-value">' + config.label + '</span>' +
                 '<span class="stat-label">Difficulty</span>' +
@@ -784,6 +903,9 @@
 
         lines.push('');
         lines.push('Swaps: ' + state.swaps + ' (Par: ' + state.par + ')');
+        if (state.hintsUsed > 0) {
+            lines.push('Used ' + state.hintsUsed + ' hint' + (state.hintsUsed > 1 ? 's' : ''));
+        }
         return lines.join('\n');
     }
 
@@ -871,6 +993,8 @@
         state.completed = false;
         state.rowsComplete = makeRowsComplete(config.rows);
         state.selected = null;
+        state.hintsUsed = 0;
+        state.hintedCells = [];
         checkRows();
     }
 
@@ -1041,6 +1165,8 @@
             state.completed = saved.completed;
             state.rowsComplete = saved.rowsComplete;
             state.initialGrid = saved.initialGrid;
+            state.hintsUsed = saved.hintsUsed || 0;
+            state.hintedCells = saved.hintedCells || [];
             state.solution = puzzle.solution;
             state.fixed = puzzle.fixed;
             state.words = puzzle.words;
@@ -1065,6 +1191,7 @@
 
         document.getElementById('help-btn').addEventListener('click', showHelpModal);
         document.getElementById('help-close-btn').addEventListener('click', hideHelpModal);
+        document.getElementById('hint-btn').addEventListener('click', useHint);
 
         var helpCloseX = document.querySelector('#help-modal .modal-close');
         if (helpCloseX) {
